@@ -12,11 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     ViewModel[] viewModels;
+    private OnItemClickListner listner;
 
-    MyAdapter(ViewModel[] viewModels)
+    MyAdapter(ViewModel[] viewModels,OnItemClickListner listner)
     {
+
         this.viewModels=viewModels;
+        this.listner=listner;
     }
+    public interface OnItemClickListner {
+        void onItemClick(int position);
+    }
+
 
 
     @NonNull
@@ -43,15 +50,29 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         return viewModels.length;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
-        TextView text;
-        ImageView img;
+       private TextView text;
+        private  ImageView img;
+
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+
             text=(TextView) itemView.findViewById(R.id.tv);
             img=(ImageView)itemView.findViewById(R.id.img);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+                int position=getAdapterPosition();
+                if(position!=RecyclerView.NO_POSITION)
+                {
+                    listner.onItemClick(position);
+                }
+
+
         }
     }
 }

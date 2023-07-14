@@ -5,8 +5,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MyAdapter.OnItemClickListner {
 
     RecyclerView recyclerView;
     ViewModel[] viewModels;
@@ -25,10 +26,15 @@ public class MainActivity extends AppCompatActivity {
         viewModels[4]=new ViewModel(R.drawable.pancake,"Pancake");
         viewModels[5]=new ViewModel(R.drawable.pasta,"Pasta");
         viewModels[6]=new ViewModel(R.drawable.pizza,"Pizza");
-        myAdapter=new MyAdapter(viewModels);
+        myAdapter=new MyAdapter(viewModels,this);
         recyclerView.setAdapter(myAdapter);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Toast.makeText(this,"Game name "+viewModels[position].getText(),Toast.LENGTH_LONG).show();
     }
 }
